@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Sample.ConsoleApp": {
+      "commandName": "Project",
+      "remoteDebugEnabled": false
+    }
+  }
+}
