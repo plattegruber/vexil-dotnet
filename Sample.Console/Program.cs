@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Vexil;
 
 namespace Sample.ConsoleApp
@@ -11,7 +12,18 @@ namespace Sample.ConsoleApp
             var googleSheetName = "Feature Flags";
             var featureFlagProvider = new Vexil.GoogleSheets.FeatureFlagProvider(googleSheetId, googleSheetName);
             var vexil = new VexilClient(featureFlagProvider);
-            if (vexil.IsEnabled("myFlag"))
+            var flagName = "myFlag";
+
+            Console.WriteLine("Press any key to exit.");
+            Console.WriteLine($"Checking the status of flag: {flagName}");
+            Timer timer = new Timer((object state) => { CheckFlag(vexil, flagName); }, "Some state", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+
+            Console.ReadLine();
+        }
+
+        private static void CheckFlag(VexilClient vexil, string flagName)
+        {
+            if (vexil.IsEnabled(flagName))
             {
                 Console.WriteLine("Enabled!");
             }
