@@ -5,7 +5,7 @@ using Google.Apis.Util.Store;
 using System.IO;
 using System.Threading;
 
-namespace Vexil.GoogleSheets
+namespace Vexil.Plugins.GoogleSheets
 {
     public class FeatureFlagProvider : IFeatureFlagProvider
     {
