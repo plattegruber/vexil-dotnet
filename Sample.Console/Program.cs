@@ -8,11 +8,9 @@ namespace Sample.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var googleSheetId = "1o_ggR0lW2n8OkT2_hK4lzv9BquRk1RcoZ6JLR_SmAP4";
-            var googleSheetName = "Feature Flags";
-            var featureFlagProvider = new Vexil.GoogleSheets.FeatureFlagProvider(googleSheetId, googleSheetName);
+            var featureFlagProvider = new Vexil.Plugins.Configuration.FeatureFlagProvider();
             var vexil = new VexilClient(featureFlagProvider);
-            var flagName = "myFlag";
+            var flagName = "testFlag";
 
             Console.WriteLine("Press any key to exit.");
             Console.WriteLine($"Checking the status of flag: {flagName}");

@@ -1,13 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Vexil.GoogleSheets\Vexil.GoogleSheets.csproj" />
-    <ProjectReference Include="..\Vexil.Plugin.Configuration\Vexil.Plugins.Configuration.csproj" />
     <ProjectReference Include="..\Vexil\Vexil.csproj" />
   </ItemGroup>
 
