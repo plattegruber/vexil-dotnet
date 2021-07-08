@@ -1,4 +1,6 @@
-﻿namespace Vexil
+﻿using System;
+
+namespace Vexil
 {
     public class VexilClient
     {
@@ -12,7 +14,16 @@
 
         public bool IsEnabled(string flag)
         {
-            return _featureFlagProvider.IsEnabled(flag);
+            if (_featureFlagProvider == null)
+                return false;
+            try
+            {
+                return _featureFlagProvider.IsEnabled(flag);
+            }
+            catch(Exception)
+            {
+                return false;
+            }
         }
     }
 }
