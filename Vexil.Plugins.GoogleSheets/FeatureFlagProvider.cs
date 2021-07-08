@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace Vexil.Plugins.GoogleSheets
 {
-    public class FeatureFlagProvider : IFeatureFlagProvider
+    public class FeatureFlagProvider : AdHocFeatureFlagProvider
     {
         private static string _spreadsheetId;
         private static string _sheetName;
@@ -22,7 +22,7 @@ namespace Vexil.Plugins.GoogleSheets
             _sheetName = sheetName;
         }
 
-        public bool IsEnabled(string featureFlag)
+        public override bool IsEnabled(string featureFlag)
         {
             UserCredential credential;
 
