@@ -1,4 +1,5 @@
 ﻿using System;
+using Vexil.Exceptions;
 
 namespace Vexil
 {
@@ -15,7 +16,7 @@ namespace Vexil
         public bool IsEnabled(string flag)
         {
             if (_featureFlagProvider == null)
-                return false;
+                throw new MissingProviderException();
             try
             {
                 return _featureFlagProvider.IsEnabled(flag);
