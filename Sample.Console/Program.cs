@@ -10,7 +10,7 @@ namespace Sample.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var featureFlagProvider = GetConfigurationFeatureFlagProvider();
+            var featureFlagProvider = GetGoogleSheetsFeatureFlagProvider();
             var vexil = new VexilClient(featureFlagProvider);
             var flagName = "testFlag";
 
@@ -23,9 +23,10 @@ namespace Sample.ConsoleApp
 
         private static IFeatureFlagProvider GetGoogleSheetsFeatureFlagProvider()
         {
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.*.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
                 .Build();
             var serviceAccountEmail = configuration["Vexil:Plugins:GoogleSheets:ServiceAccountEmail"].ToString();
             var certificate = new X509Certificate2("c:\\auth.p12", "notasecret", X509KeyStorageFlags.Exportable);

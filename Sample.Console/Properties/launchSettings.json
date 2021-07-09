@@ -4,7 +4,7 @@
       "commandName": "Project",
       "remoteDebugEnabled": false,
       "environmentVariables": {
-        "Environment": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }
