@@ -21,8 +21,10 @@ namespace Vexil
             {
                 return _featureFlagProvider.IsEnabled(flag);
             }
-            catch(Exception)
+            catch(Exception e)
             {
+                Console.WriteLine(e);
+                
                 return false;
             }
         }

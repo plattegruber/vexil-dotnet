@@ -1,9 +1,4 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Sheets.v4;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
-using System.IO;
-using System.Threading;
+﻿using System.Security.Cryptography.X509Certificates;
 
 namespace Vexil.Plugins.GoogleSheets
 {
@@ -11,39 +6,25 @@ namespace Vexil.Plugins.GoogleSheets
     {
         private static string _spreadsheetId;
         private static string _sheetName;
-        private static readonly string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
-        private static readonly string ApplicationName = "vexil";
+        private static string _serviceAccountEmail;
+        private static X509Certificate2 _certificate;
 
         public FeatureFlagProvider(
             string spreadsheetId,
-            string sheetName)
+            string sheetName,
+            string serviceAccountEmail,
+            X509Certificate2 certificate)
         {
             _spreadsheetId = spreadsheetId;
             _sheetName = sheetName;
+            _serviceAccountEmail = serviceAccountEmail;
+            _certificate = certificate;
         }
 
         public override bool IsEnabled(string featureFlag)
         {
-            UserCredential credential;
-
-            using (var stream = new FileStream("user.json", FileMode.Open, FileAccess.Read))
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.FromStream(stream).Secrets,
-                    Scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore("credentials.json", true)).Result;
-
-            var service = new SheetsService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-            var range = $"{_sheetName}!A2:B";
-            var values = service.Spreadsheets.Values
-                .Get(_spreadsheetId, range)
-                .Execute()
-                .Values;
+            var credential = CredentialManager.Generate(_serviceAccountEmail, _certificate);
+            var values = new SheetReader().ReadAllValues(credential, _spreadsheetId, $"{_sheetName}!A2:B");
             if (values != null)
             {
                 foreach (var row in values)

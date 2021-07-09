@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using Vexil;
 
@@ -8,7 +10,7 @@ namespace Sample.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var featureFlagProvider = new Vexil.Plugins.Configuration.FeatureFlagProvider();
+            var featureFlagProvider = GetConfigurationFeatureFlagProvider();
             var vexil = new VexilClient(featureFlagProvider);
             var flagName = "testFlag";
 
@@ -17,6 +19,25 @@ namespace Sample.ConsoleApp
             Timer timer = new Timer((object state) => { CheckFlag(vexil, flagName); }, "Some state", TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
 
             Console.ReadLine();
+        }
+
+        private static IFeatureFlagProvider GetGoogleSheetsFeatureFlagProvider()
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.*.json", optional: true, reloadOnChange: true)
+                .Build();
+            var serviceAccountEmail = configuration["Vexil:Plugins:GoogleSheets:ServiceAccountEmail"].ToString();
+            var certificate = new X509Certificate2("c:\\auth.p12", "notasecret", X509KeyStorageFlags.Exportable);
+            var sheetId = configuration["Vexil:Plugins:GoogleSheets:SheetId"].ToString();
+            var sheetName = configuration["Vexil:Plugins:GoogleSheets:SheetName"].ToString();
+
+            return new Vexil.Plugins.GoogleSheets.FeatureFlagProvider(sheetId, sheetName, serviceAccountEmail, certificate);
+        }
+
+        private static IFeatureFlagProvider GetConfigurationFeatureFlagProvider()
+        {
+            return new Vexil.Plugins.Configuration.FeatureFlagProvider();
         }
 
         private static void CheckFlag(VexilClient vexil, string flagName)

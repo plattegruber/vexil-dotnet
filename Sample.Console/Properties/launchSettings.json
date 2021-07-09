@@ -2,7 +2,10 @@
   "profiles": {
     "Sample.ConsoleApp": {
       "commandName": "Project",
-      "remoteDebugEnabled": false
+      "remoteDebugEnabled": false,
+      "environmentVariables": {
+        "Environment": "Development"
+      }
     }
   }
 }
