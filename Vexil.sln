@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vexil.Tests", "Vexil.Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vexil.Plugins.Configuration", "Vexil.Plugin.Configuration\Vexil.Plugins.Configuration.csproj", "{F8D524D7-6DCE-4343-BC89-C2469C3E4389}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vexil.Plugins.Unleash", "Vexil.Plugins.Unleash\Vexil.Plugins.Unleash.csproj", "{C8B8D158-FC3D-492C-8B5F-E7A697C28920}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vexil.Plugins.Unleash.Tests", "Vexil.Plugins.Unleash.Tests\Vexil.Plugins.Unleash.Tests.csproj", "{11B40B62-B3A4-4290-925C-5840C4DE24DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{F8D524D7-6DCE-4343-BC89-C2469C3E4389}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8D524D7-6DCE-4343-BC89-C2469C3E4389}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8D524D7-6DCE-4343-BC89-C2469C3E4389}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B8D158-FC3D-492C-8B5F-E7A697C28920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B8D158-FC3D-492C-8B5F-E7A697C28920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B8D158-FC3D-492C-8B5F-E7A697C28920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B8D158-FC3D-492C-8B5F-E7A697C28920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11B40B62-B3A4-4290-925C-5840C4DE24DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11B40B62-B3A4-4290-925C-5840C4DE24DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11B40B62-B3A4-4290-925C-5840C4DE24DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11B40B62-B3A4-4290-925C-5840C4DE24DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

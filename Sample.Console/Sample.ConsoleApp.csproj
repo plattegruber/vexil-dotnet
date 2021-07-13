@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Vexil.Plugins.GoogleSheets\Vexil.Plugins.GoogleSheets.csproj" />
     <ProjectReference Include="..\Vexil.Plugin.Configuration\Vexil.Plugins.Configuration.csproj" />
+    <ProjectReference Include="..\Vexil.Plugins.Unleash\Vexil.Plugins.Unleash.csproj" />
     <ProjectReference Include="..\Vexil\Vexil.csproj" />
   </ItemGroup>
 

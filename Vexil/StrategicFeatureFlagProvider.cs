@@ -1,23 +1,35 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Threading.Tasks;
 
 namespace Vexil
 {
-    public class StrategicFeatureFlagProvider : IFeatureFlagProvider
+    public abstract class StrategicFeatureFlagProvider : IFeatureFlagProvider
     {
-        private ConcurrentDictionary<string, FeatureFlag> _featureFlags = new ConcurrentDictionary<string, FeatureFlag>();
+        private IFeatureFlagStore _featureFlagStore;
+        private IFeatureFlagService _featureFlagService;
 
         public StrategicFeatureFlagProvider(
-            ConcurrentDictionary<string, FeatureFlag> featureFlags)
+            IFeatureFlagStore featureFlagStore,
+            IFeatureFlagService featureFlagService)
         {
-            _featureFlags = featureFlags;
+            _featureFlagStore = featureFlagStore;
+            _featureFlagService = featureFlagService;
+            DiscoverAllAsync().ConfigureAwait(false);
         }
 
         public bool IsEnabled(string featureFlag)
         {
-            return _featureFlags != null
-                && _featureFlags.ContainsKey(featureFlag) 
-                && _featureFlags[featureFlag].AllStrategyConditionsMet();
+            return _featureFlagStore != null
+                && _featureFlagStore.ContainsKey(featureFlag)
+                && _featureFlagStore[featureFlag].AllStrategyConditionsMet();
+        }
+
+        public async Task DiscoverAllAsync()
+        {
+            var featureFlags = await _featureFlagService.GetAsync();
+            foreach (var featureFlag in featureFlags)
+            {
+                _featureFlagStore.Add(featureFlag.Name, featureFlag);
+            }
         }
     }
 }
