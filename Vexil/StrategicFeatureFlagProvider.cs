@@ -2,11 +2,19 @@
 
 namespace Vexil
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class StrategicFeatureFlagProvider : IFeatureFlagProvider
     {
         private IFeatureFlagStore _featureFlagStore;
         private IFeatureFlagService _featureFlagService;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="featureFlagStore"></param>
+        /// <param name="featureFlagService"></param>
         public StrategicFeatureFlagProvider(
             IFeatureFlagStore featureFlagStore,
             IFeatureFlagService featureFlagService)
@@ -16,6 +24,11 @@ namespace Vexil
             DiscoverAllAsync().ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="featureFlag"></param>
+        /// <returns></returns>
         public bool IsEnabled(string featureFlag)
         {
             return _featureFlagStore != null
@@ -23,6 +36,10 @@ namespace Vexil
                 && _featureFlagStore[featureFlag].AllStrategyConditionsMet();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task DiscoverAllAsync()
         {
             var featureFlags = await _featureFlagService.GetAsync();

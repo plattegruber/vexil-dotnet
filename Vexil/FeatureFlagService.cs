@@ -4,8 +4,15 @@ using Vexil.Strategies;
 
 namespace Vexil
 {
+    /// <summary>
+    /// TODO: XML docs
+    /// </summary>
     public class FeatureFlagService : IFeatureFlagService
     {
+        /// <summary>
+        /// TODO: XML docs
+        /// </summary>
+        /// <returns></returns>
         public virtual async Task<IEnumerable<FeatureFlag>> GetAsync()
         {
             await Task.CompletedTask;

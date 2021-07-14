@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Vexil</name>
+    </assembly>
+    <members>
+        <member name="T:Vexil.AdHocFeatureFlagProvider">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="M:Vexil.AdHocFeatureFlagProvider.IsEnabled(System.String)">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <param name="featureFlag"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Vexil.Exceptions.MissingProviderException">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="M:Vexil.Exceptions.MissingProviderException.#ctor">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="M:Vexil.Exceptions.MissingProviderException.#ctor(System.String)">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Vexil.Exceptions.MissingProviderException.#ctor(System.String,System.Exception)">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <param name="message"></param>
+            <param name="inner"></param>
+        </member>
+        <member name="T:Vexil.FeatureFlag">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="P:Vexil.FeatureFlag.Name">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="P:Vexil.FeatureFlag.Strategies">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="M:Vexil.FeatureFlag.AllStrategyConditionsMet">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Vexil.FeatureFlagService">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="M:Vexil.FeatureFlagService.GetAsync">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Vexil.FeatureFlagStore">
+            <summary>
+            TODO: xml docs
+            </summary>
+        </member>
+        <member name="T:Vexil.IFeatureFlagProvider">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="M:Vexil.IFeatureFlagProvider.IsEnabled(System.String)">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <param name="featureFlag"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Vexil.IFeatureFlagService">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="M:Vexil.IFeatureFlagService.GetAsync">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Vexil.IFeatureFlagStore">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="T:Vexil.StrategicFeatureFlagProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Vexil.StrategicFeatureFlagProvider.#ctor(Vexil.IFeatureFlagStore,Vexil.IFeatureFlagService)">
+            <summary>
+            
+            </summary>
+            <param name="featureFlagStore"></param>
+            <param name="featureFlagService"></param>
+        </member>
+        <member name="M:Vexil.StrategicFeatureFlagProvider.IsEnabled(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="featureFlag"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Vexil.StrategicFeatureFlagProvider.DiscoverAllAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Vexil.Strategies.IStrategy">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="M:Vexil.Strategies.IStrategy.IsCriteriaMet(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Vexil.Strategies.UserIdStrategy">
+            <summary>
+            TODO: XML docs
+            </summary>
+        </member>
+        <member name="M:Vexil.Strategies.UserIdStrategy.#ctor(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <param name="allowedUserIds"></param>
+        </member>
+        <member name="M:Vexil.Strategies.UserIdStrategy.IsCriteriaMet(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            TODO: XML docs
+            </summary>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Vexil.VexilClient">
+            <summary>
+                The entry point for consumers of the Vexil library.
+            </summary>
+        </member>
+        <member name="F:Vexil.VexilClient._featureFlagProvider">
+            <summary>
+                The <see cref="T:Vexil.IFeatureFlagProvider" /> plugin configured for use.
+            </summary>
+        </member>
+        <member name="M:Vexil.VexilClient.#ctor(Vexil.IFeatureFlagProvider)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Vexil.VexilClient"/> class.
+            </summary>
+            <param name="featureFlagProvider"> The <see cref="T:Vexil.IFeatureFlagProvider"/> to be configured as a plugin. </param>
+        </member>
+        <member name="M:Vexil.VexilClient.IsEnabled(System.String)">
+            <summary>
+                <para>
+                    Gets the current value of the requested feature flag by name.
+                </para>
+                <para>
+                    If the feature flag is missing or the configured plugin throws an exception, this method will default to
+                    <see langword="false" />. If the plugin failed to properly configure, a <see cref="T:Vexil.Exceptions.MissingProviderException"/>
+                    will be thrown.
+                </para>
+            </summary>
+            <exception cref="T:Vexil.Exceptions.MissingProviderException"></exception>
+            <param name="flag"> The slug or name of the feature flag. </param>
+            <returns> <see langword="true" /> if the flag is enabled given the current context. <see langword="false" /> otherwise. </returns>
+        </member>
+    </members>
+</doc>
