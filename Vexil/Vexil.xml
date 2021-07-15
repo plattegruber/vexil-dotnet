@@ -18,26 +18,31 @@
         </member>
         <member name="T:Vexil.Exceptions.MissingProviderException">
             <summary>
-            TODO: XML docs
+            An exception thrown when no provider has been configured.
             </summary>
         </member>
         <member name="M:Vexil.Exceptions.MissingProviderException.#ctor">
-            <summary>
-            TODO: XML docs
-            </summary>
+            <see cref="M:System.Exception.#ctor"></see>
         </member>
         <member name="M:Vexil.Exceptions.MissingProviderException.#ctor(System.String)">
-            <summary>
-            TODO: XML docs
-            </summary>
-            <param name="message"></param>
+            <see cref="M:System.Exception.#ctor(System.String)"></see>
         </member>
         <member name="M:Vexil.Exceptions.MissingProviderException.#ctor(System.String,System.Exception)">
+            <see cref="M:System.Exception.#ctor(System.String,System.Exception)"></see>
+        </member>
+        <member name="T:Vexil.Exceptions.ProviderException">
             <summary>
-            TODO: XML docs
+            An exception thrown when the underlying configured provider throws any exception.
             </summary>
-            <param name="message"></param>
-            <param name="inner"></param>
+        </member>
+        <member name="M:Vexil.Exceptions.ProviderException.#ctor">
+            <see cref="M:System.Exception.#ctor"></see>
+        </member>
+        <member name="M:Vexil.Exceptions.ProviderException.#ctor(System.String)">
+            <see cref="M:System.Exception.#ctor(System.String)"></see>
+        </member>
+        <member name="M:Vexil.Exceptions.ProviderException.#ctor(System.String,System.Exception)">
+            <see cref="M:System.Exception.#ctor(System.String,System.Exception)"></see>
         </member>
         <member name="T:Vexil.FeatureFlag">
             <summary>
@@ -131,42 +136,49 @@
         </member>
         <member name="T:Vexil.Strategies.IStrategy">
             <summary>
-            TODO: XML docs
+                A condition or constraint that enables feature flag when met.
             </summary>
         </member>
         <member name="M:Vexil.Strategies.IStrategy.IsCriteriaMet(System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
-            TODO: XML docs
+                Determine if the criteria is met for the strategy, given the current context. 
             </summary>
-            <param name="parameters"></param>
-            <returns></returns>
+            <param name="parameters"> The context necessary for the strategy. </param>
+            <returns> <see langword="true" /> if the strategy conditions are met, <see langword="false" /> otherwise. </returns>
         </member>
         <member name="T:Vexil.Strategies.UserIdStrategy">
             <summary>
-            TODO: XML docs
+                <para>
+                    A feature flag strategy that enables the feature flag for a given set of user ids.
+                </para>
+                <para>
+                    <see cref="T:Vexil.Strategies.IStrategy"/>
+                </para>
             </summary>
         </member>
         <member name="M:Vexil.Strategies.UserIdStrategy.#ctor(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
-            TODO: XML docs
+                Initializes a new instance of the <see cref="T:Vexil.Strategies.UserIdStrategy" /> class with the set
+                of allowed user ids.
             </summary>
-            <param name="allowedUserIds"></param>
+            <param name="allowedUserIds"> The user ids that this strategy is constrained to. </param>
         </member>
         <member name="M:Vexil.Strategies.UserIdStrategy.IsCriteriaMet(System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
-            TODO: XML docs
+                Determine if the criteria is met for the strategy, given the current context. 
             </summary>
-            <param name="parameters"></param>
-            <returns></returns>
+            <param name="parameters"> 
+                The context necessary for the strategy. In this case, the current user id will be needed.
+            </param>
+            <returns> 
+                <see langword="true" /> if the strategy conditions are met, <see langword="false" /> otherwise. In
+                this case, strategy conditions will be met when the given user id is in the set of allowed user
+                ids.
+            </returns>
         </member>
         <member name="T:Vexil.VexilClient">
             <summary>
                 The entry point for consumers of the Vexil library.
-            </summary>
-        </member>
-        <member name="F:Vexil.VexilClient._featureFlagProvider">
-            <summary>
-                The <see cref="T:Vexil.IFeatureFlagProvider" /> plugin configured for use.
             </summary>
         </member>
         <member name="M:Vexil.VexilClient.#ctor(Vexil.IFeatureFlagProvider)">

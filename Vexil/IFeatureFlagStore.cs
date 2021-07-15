@@ -3,7 +3,7 @@
 namespace Vexil
 {
     /// <summary>
-    /// TODO: XML docs
+    ///     An in-memory store of feature flags.
     /// </summary>
     public interface IFeatureFlagStore : IDictionary<string, FeatureFlag> { }
 }
