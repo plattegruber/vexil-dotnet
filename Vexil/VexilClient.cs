@@ -8,9 +8,6 @@ namespace Vexil
     /// </summary>
     public class VexilClient
     {
-        /// <summary>
-        ///     The <see cref="IFeatureFlagProvider" /> plugin configured for use.
-        /// </summary>
         private readonly IFeatureFlagProvider _featureFlagProvider;
 
         /// <summary>
@@ -46,8 +43,8 @@ namespace Vexil
             }
             catch(Exception e)
             {
-                Console.WriteLine(e);
-                
+                var exception = new ProviderException("The underlying feature flag provider threw an exception. Defaulting to false.", e);   
+                Console.WriteLine(exception);
                 return false;
             }
         }
