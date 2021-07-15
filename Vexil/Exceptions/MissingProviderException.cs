@@ -3,26 +3,17 @@
 namespace Vexil.Exceptions
 {
     /// <summary>
-    /// TODO: XML docs
+    /// An exception thrown when no provider has been configured.
     /// </summary>
     public class MissingProviderException : Exception
     {
-        /// <summary>
-        /// TODO: XML docs
-        /// </summary>
+        /// <see cref="Exception()"></see>
         public MissingProviderException() : base() { }
 
-        /// <summary>
-        /// TODO: XML docs
-        /// </summary>
-        /// <param name="message"></param>
+        /// <see cref="Exception(string)"></see>
         public MissingProviderException(string message) : base(message) { }
 
-        /// <summary>
-        /// TODO: XML docs
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="inner"></param>
+        /// <see cref="Exception(string, Exception)"></see>
         public MissingProviderException(string message, Exception inner) : base(message, inner) { }
     }
 }
