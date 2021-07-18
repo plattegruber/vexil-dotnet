@@ -78,7 +78,7 @@
         </member>
         <member name="T:Vexil.FeatureFlagStore">
             <summary>
-            TODO: xml docs
+                An in-memory store of feature flags. An implementation of <see cref="T:Vexil.IFeatureFlagStore"/>
             </summary>
         </member>
         <member name="T:Vexil.IFeatureFlagProvider">
@@ -95,18 +95,18 @@
         </member>
         <member name="T:Vexil.IFeatureFlagService">
             <summary>
-            TODO: XML docs
+                A service that coordinates the fetching of feature flags from their source.
             </summary>
         </member>
         <member name="M:Vexil.IFeatureFlagService.GetAsync">
             <summary>
-            TODO: XML docs
+                Retreive the set of feature flags from their source.
             </summary>
-            <returns></returns>
+            <returns> A set of <see cref="T:Vexil.FeatureFlag"/>s. </returns>
         </member>
         <member name="T:Vexil.IFeatureFlagStore">
             <summary>
-            TODO: XML docs
+                An in-memory store of feature flags.
             </summary>
         </member>
         <member name="T:Vexil.StrategicFeatureFlagProvider">
@@ -148,12 +148,8 @@
         </member>
         <member name="T:Vexil.Strategies.UserIdStrategy">
             <summary>
-                <para>
-                    A feature flag strategy that enables the feature flag for a given set of user ids.
-                </para>
-                <para>
-                    <see cref="T:Vexil.Strategies.IStrategy"/>
-                </para>
+                A feature flag strategy that enables the feature flag for a given set of user ids. An implementation
+                of <see cref="T:Vexil.Strategies.IStrategy"/>.
             </summary>
         </member>
         <member name="M:Vexil.Strategies.UserIdStrategy.#ctor(System.Collections.Generic.IEnumerable{System.String})">
@@ -165,7 +161,8 @@
         </member>
         <member name="M:Vexil.Strategies.UserIdStrategy.IsCriteriaMet(System.Collections.Generic.Dictionary{System.String,System.Object})">
             <summary>
-                Determine if the criteria is met for the strategy, given the current context. 
+                Determine if the criteria is met for the strategy, given the current context. An implementation of
+                <see cref="M:Vexil.Strategies.IStrategy.IsCriteriaMet(System.Collections.Generic.Dictionary{System.String,System.Object})"/>
             </summary>
             <param name="parameters"> 
                 The context necessary for the strategy. In this case, the current user id will be needed.
@@ -175,6 +172,24 @@
                 this case, strategy conditions will be met when the given user id is in the set of allowed user
                 ids.
             </returns>
+        </member>
+        <member name="T:Vexil.VexilBuilder">
+            <summary>
+                A builder for the <see cref="T:Vexil.VexilClient"/>.
+            </summary>
+        </member>
+        <member name="M:Vexil.VexilBuilder.UseFeatureFlagProvider(Vexil.IFeatureFlagProvider)">
+            <summary>
+                Sets the <see cref="T:Vexil.IFeatureFlagProvider"/> to be used by the <see cref="T:Vexil.VexilClient"/>.
+            </summary>
+            <param name="featureFlagProvider"> The <see cref="T:Vexil.IFeatureFlagProvider"/> to be used. </param>
+            <returns> The builder instance. </returns>
+        </member>
+        <member name="M:Vexil.VexilBuilder.Build">
+            <summary>
+                Gets the <see cref="T:Vexil.VexilClient"/> being configured.
+            </summary>
+            <returns> The <see cref="T:Vexil.VexilClient"/> being configured. </returns>
         </member>
         <member name="T:Vexil.VexilClient">
             <summary>

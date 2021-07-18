@@ -13,7 +13,9 @@ namespace Sample.ConsoleApp
             //var featureFlagProvider = GetGoogleSheetsFeatureFlagProvider();
             //var featureFlagProvider = GetConfigurationFeatureFlagProvider();
             var featureFlagProvider = GetUnleashFeatureFlagProvider();
-            var vexil = new VexilClient(featureFlagProvider);
+            var vexil = new VexilBuilder()
+                .UseFeatureFlagProvider(featureFlagProvider)
+                .Build();
             var flagName = "testFlag";
 
             Console.WriteLine("Press any key to exit.");

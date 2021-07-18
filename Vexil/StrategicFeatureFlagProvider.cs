@@ -29,7 +29,7 @@ namespace Vexil
         /// </summary>
         /// <param name="featureFlag"></param>
         /// <returns></returns>
-        public bool IsEnabled(string featureFlag)
+        public virtual bool IsEnabled(string featureFlag)
         {
             return _featureFlagStore != null
                 && _featureFlagStore.ContainsKey(featureFlag)
@@ -40,7 +40,7 @@ namespace Vexil
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task DiscoverAllAsync()
+        public virtual async Task DiscoverAllAsync()
         {
             var featureFlags = await _featureFlagService.GetAsync();
             foreach (var featureFlag in featureFlags)
