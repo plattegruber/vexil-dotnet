@@ -178,6 +178,11 @@
                 A builder for the <see cref="T:Vexil.VexilClient"/>.
             </summary>
         </member>
+        <member name="F:Vexil.VexilBuilder.ConfiguredFeatureFlagProvider">
+            <summary>
+                The <see cref="T:Vexil.IFeatureFlagProvider"/> being configured.
+            </summary>
+        </member>
         <member name="M:Vexil.VexilBuilder.UseFeatureFlagProvider(Vexil.IFeatureFlagProvider)">
             <summary>
                 Sets the <see cref="T:Vexil.IFeatureFlagProvider"/> to be used by the <see cref="T:Vexil.VexilClient"/>.

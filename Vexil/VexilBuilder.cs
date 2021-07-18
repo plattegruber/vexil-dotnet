@@ -5,7 +5,10 @@
     /// </summary>
     public class VexilBuilder
     {
-        private IFeatureFlagProvider _featureFlagProvider;
+        /// <summary>
+        ///     The <see cref="IFeatureFlagProvider"/> being configured.
+        /// </summary>
+        public IFeatureFlagProvider ConfiguredFeatureFlagProvider;
 
         /// <summary>
         ///     Sets the <see cref="IFeatureFlagProvider"/> to be used by the <see cref="VexilClient"/>.
@@ -14,7 +17,7 @@
         /// <returns> The builder instance. </returns>
         public VexilBuilder UseFeatureFlagProvider(IFeatureFlagProvider featureFlagProvider)
         {
-            this._featureFlagProvider = featureFlagProvider;
+            this.ConfiguredFeatureFlagProvider = featureFlagProvider;
             return this;
         }
 
@@ -23,6 +26,6 @@
         /// </summary>
         /// <returns> The <see cref="VexilClient"/> being configured. </returns>
         public VexilClient Build()
-            => new VexilClient(_featureFlagProvider);
+            => new VexilClient(ConfiguredFeatureFlagProvider);
     }
 }
