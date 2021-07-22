@@ -42,7 +42,7 @@ namespace Sample.ConsoleApp
 
         private static IFeatureFlagProvider GetConfigurationFeatureFlagProvider()
         {
-            return new Vexil.Plugins.Configuration.FeatureFlagProvider();
+            return new Vexil.Plugins.Configuration.ConfigurationFeatureFlagProvider();
         }
         private static IFeatureFlagProvider GetUnleashFeatureFlagProvider()
         {

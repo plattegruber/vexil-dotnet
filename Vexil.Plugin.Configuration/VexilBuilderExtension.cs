@@ -4,7 +4,7 @@
     {
         public static VexilBuilder UseConfiguration(this VexilBuilder vexilBuilder)
         {
-            vexilBuilder.ConfiguredFeatureFlagProvider = new FeatureFlagProvider();
+            vexilBuilder.ConfiguredFeatureFlagProvider = new ConfigurationFeatureFlagProvider();
             return vexilBuilder;
         }
     }
