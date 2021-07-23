@@ -12,7 +12,7 @@ namespace Vexil
         /// <summary>
         /// TODO: XML docs
         /// </summary>
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         /// <summary>
         /// TODO: XML docs

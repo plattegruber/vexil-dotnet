@@ -40,10 +40,11 @@ namespace Sample.ConsoleApp
             return new Vexil.Plugins.GoogleSheets.FeatureFlagProvider(sheetId, sheetName, serviceAccountEmail, certificate);
         }
 
-        private static IFeatureFlagProvider GetConfigurationFeatureFlagProvider()
-        {
-            return new Vexil.Plugins.Configuration.ConfigurationFeatureFlagProvider();
-        }
+        //private static IFeatureFlagProvider GetConfigurationFeatureFlagProvider()
+        //{
+        //    return new Vexil.Plugins.Configuration.ConfigurationFeatureFlagProvider();
+        //}
+
         private static IFeatureFlagProvider GetUnleashFeatureFlagProvider()
         {
             return new Vexil.Plugins.Unleash.UnleashFeatureFlagProvider(new FeatureFlagStore(), new FeatureFlagService());
