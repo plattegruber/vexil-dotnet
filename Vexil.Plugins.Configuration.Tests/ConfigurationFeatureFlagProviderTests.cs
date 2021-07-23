@@ -34,5 +34,17 @@ namespace Vexil.Plugins.Configuration.Tests
 
             Assert.False(isEnabled);
         }
+
+        [Fact]
+        public void IsEnabled_ShouldReturnFalse_IfTheFlagIsNotFound()
+        {
+            var _featureFlagManagerMock = new Mock<IFeatureFlagManager>();
+            _featureFlagManagerMock.Setup(m => m.Get("test-flag")).Returns<FeatureFlag>(null);
+            var sut = new ConfigurationFeatureFlagProvider(_featureFlagManagerMock.Object);
+
+            var isEnabled = sut.IsEnabled("test-flag");
+
+            Assert.False(isEnabled);
+        }
     }
 }

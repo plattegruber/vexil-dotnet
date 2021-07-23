@@ -11,6 +11,6 @@
         }
 
         public bool IsEnabled(string featureFlag) =>
-            _featureFlagManager.Get(featureFlag).AllStrategyConditionsMet();
+            _featureFlagManager.Get(featureFlag)?.AllStrategyConditionsMet() ?? false;
     }
 }
