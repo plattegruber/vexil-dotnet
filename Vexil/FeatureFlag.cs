@@ -7,7 +7,7 @@ namespace Vexil
     /// <summary>
     /// TODO: XML docs
     /// </summary>
-    public class FeatureFlag
+    public record FeatureFlag
     {
         /// <summary>
         /// TODO: XML docs

@@ -7,7 +7,7 @@ namespace Vexil.Strategies
     ///     A feature flag strategy that enables the feature flag for a given set of user ids. An implementation
     ///     of <see cref="IStrategy"/>.
     /// </summary>
-    public class UserIdStrategy : IStrategy
+    public record UserIdStrategy : IStrategy
     {
         private IEnumerable<string> _allowedUserIds;
 
