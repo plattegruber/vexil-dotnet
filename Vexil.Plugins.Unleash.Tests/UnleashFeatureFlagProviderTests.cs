@@ -1,5 +1,4 @@
 using Moq;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -8,22 +7,27 @@ namespace Vexil.Plugins.Unleash.Tests
 {
     public class UnleashFeatureFlagProviderTests
     {
+        private readonly Mock<IFeatureFlagStore> _featureFlagStoreMock;
+        private readonly Mock<IFeatureFlagService> _featureFlagServiceMock;
+        private readonly UnleashFeatureFlagProvider _sut;
+
+        public UnleashFeatureFlagProviderTests()
+        {
+            _featureFlagStoreMock = new Mock<IFeatureFlagStore>();
+            _featureFlagServiceMock = new Mock<IFeatureFlagService>();
+            _sut = new UnleashFeatureFlagProvider(_featureFlagStoreMock.Object, _featureFlagServiceMock.Object);
+        }
+
         [Fact]
         public void IsEnabled_ShouldReturnFalse_WhenTheFlagIsMissing()
         {
-            var featureFlagStoreMock = new Mock<FeatureFlagStore>();
-            var featureFlagServiceMock = new Mock<FeatureFlagService>();
             var targetFlag = Mock.Of<FeatureFlag>(f => f.AllStrategyConditionsMet() == true);
             targetFlag.Name = "wrong-flag";
-            featureFlagServiceMock.Setup(m => m.GetAsync()).ReturnsAsync(new List<FeatureFlag>()
-            {
-                targetFlag
-            }.AsEnumerable());
-            featureFlagServiceMock.Setup(m => m.GetAsync()).ReturnsAsync(new List<FeatureFlag>().AsEnumerable());
+            _featureFlagStoreMock.SetupGet(m => m["wrong-flag"]).Returns(targetFlag);
+            _featureFlagStoreMock.Setup(m => m.ContainsKey("wrong-flag")).Returns(true);
+            _featureFlagServiceMock.Setup(m => m.GetAsync()).ReturnsAsync(new List<FeatureFlag>().AsEnumerable());
 
-            var sut = new UnleashFeatureFlagProvider(featureFlagStoreMock.Object, featureFlagServiceMock.Object);
-
-            var isEnabled = sut.IsEnabled("flag");
+            var isEnabled = _sut.IsEnabled("flag");
 
             Assert.False(isEnabled);
         }
@@ -31,17 +35,12 @@ namespace Vexil.Plugins.Unleash.Tests
         [Fact]
         public void IsEnabled_ShouldReturnFalse_WhenAStrategyConditionIsntMet()
         {
-            var featureFlagStoreMock = new Mock<FeatureFlagStore>();
-            var featureFlagServiceMock = new Mock<FeatureFlagService>();
             var targetFlag = Mock.Of<FeatureFlag>(f => f.AllStrategyConditionsMet() == false);
             targetFlag.Name = "flag";
-            featureFlagServiceMock.Setup(m => m.GetAsync()).ReturnsAsync(new List<FeatureFlag>()
-            {
-                targetFlag
-            }.AsEnumerable());
-            var sut = new UnleashFeatureFlagProvider(featureFlagStoreMock.Object, featureFlagServiceMock.Object);
+            _featureFlagStoreMock.SetupGet(m => m["flag"]).Returns(targetFlag);
+            _featureFlagStoreMock.Setup(m => m.ContainsKey("flag")).Returns(false);
 
-            var isEnabled = sut.IsEnabled("flag");
+            var isEnabled = _sut.IsEnabled("flag");
 
             Assert.False(isEnabled);
         }
@@ -49,17 +48,11 @@ namespace Vexil.Plugins.Unleash.Tests
         [Fact]
         public void IsEnabled_ShouldReturnTrue_WhenStrategyConditionsAreAMet()
         {
-            var featureFlagStoreMock = new Mock<FeatureFlagStore>();
-            var featureFlagServiceMock = new Mock<FeatureFlagService>();
-            var targetFlag = Mock.Of<FeatureFlag>(f => f.AllStrategyConditionsMet() == true);
-            targetFlag.Name = "flag";
-            featureFlagServiceMock.Setup(m => m.GetAsync()).ReturnsAsync(new List<FeatureFlag>()
-            {
-                targetFlag
-            }.AsEnumerable());
-            var sut = new UnleashFeatureFlagProvider(featureFlagStoreMock.Object, featureFlagServiceMock.Object);
+            var targetFlag = Mock.Of<FeatureFlag>(f => f.AllStrategyConditionsMet() == true && f.Name == "flag");
+            _featureFlagStoreMock.SetupGet(m => m["flag"]).Returns(targetFlag);
+            _featureFlagStoreMock.Setup(m => m.ContainsKey("flag")).Returns(true);
 
-            var isEnabled = sut.IsEnabled("flag");
+            var isEnabled = _sut.IsEnabled("flag");
 
             Assert.True(isEnabled);
         }
@@ -67,12 +60,7 @@ namespace Vexil.Plugins.Unleash.Tests
         [Fact]
         public void IsEnabled_ShouldReturnFalse_WhenThereAreNoFlags()
         {
-            var featureFlagStoreMock = new Mock<FeatureFlagStore>();
-            var featureFlagServiceMock = new Mock<FeatureFlagService>();
-            featureFlagServiceMock.Setup(m => m.GetAsync()).ReturnsAsync(new List<FeatureFlag>().AsEnumerable());
-            var sut = new UnleashFeatureFlagProvider(featureFlagStoreMock.Object, featureFlagServiceMock.Object);
-
-            var isEnabled = sut.IsEnabled("flag");
+            var isEnabled = _sut.IsEnabled("flag");
 
             Assert.False(isEnabled);
         }

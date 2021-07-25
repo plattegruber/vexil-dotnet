@@ -6,14 +6,21 @@ namespace Vexil.Tests
 {
     public class VexilClientTests
     {
+        private readonly Mock<IFeatureFlagProvider> _featureFlagProviderMock;
+        private readonly VexilClient _sut;
+
+        public VexilClientTests()
+        {
+            _featureFlagProviderMock = new Mock<IFeatureFlagProvider>();
+            _sut = new VexilClient(_featureFlagProviderMock.Object);
+        }
+
         [Fact]
         public void IsEnabled_ShouldReturnTrue_WhenTheFlagIsEnabled()
         {
-            var featureFlagProviderMock = new Mock<IFeatureFlagProvider>();
-            featureFlagProviderMock.Setup(m => m.IsEnabled("flag")).Returns(true);
-            var vexilClient = new VexilClient(featureFlagProvider: featureFlagProviderMock.Object);
+            _featureFlagProviderMock.Setup(m => m.IsEnabled("flag")).Returns(true);
 
-            var isEnabled = vexilClient.IsEnabled("flag");
+            var isEnabled = _sut.IsEnabled("flag");
 
             Assert.True(isEnabled);
         }
@@ -21,11 +28,9 @@ namespace Vexil.Tests
         [Fact]
         public void IsEnabled_ShouldReturnFalse_WhenTheFlagIsDisabled()
         {
-            var featureFlagProviderMock = new Mock<IFeatureFlagProvider>();
-            featureFlagProviderMock.Setup(m => m.IsEnabled("flag")).Returns(false);
-            var vexilClient = new VexilClient(featureFlagProvider: featureFlagProviderMock.Object);
+            _featureFlagProviderMock.Setup(m => m.IsEnabled("flag")).Returns(false);
 
-            var isEnabled = vexilClient.IsEnabled("flag");
+            var isEnabled = _sut.IsEnabled("flag");
 
             Assert.False(isEnabled);
         }
@@ -33,11 +38,9 @@ namespace Vexil.Tests
         [Fact]
         public void IsEnabled_ShouldReturnFalse_WhenTheFlagErrors()
         {
-            var featureFlagProviderMock = new Mock<IFeatureFlagProvider>();
-            featureFlagProviderMock.Setup(m => m.IsEnabled("flag")).Throws<Exception>();
-            var vexilClient = new VexilClient(featureFlagProvider: featureFlagProviderMock.Object);
+            _featureFlagProviderMock.Setup(m => m.IsEnabled("flag")).Throws<Exception>();
 
-            var isEnabled = vexilClient.IsEnabled("flag");
+            var isEnabled = _sut.IsEnabled("flag");
 
             Assert.False(isEnabled);
         }

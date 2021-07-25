@@ -21,7 +21,6 @@ namespace Vexil
         {
             _featureFlagStore = featureFlagStore;
             _featureFlagService = featureFlagService;
-            DiscoverAllAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -31,6 +30,8 @@ namespace Vexil
         /// <returns></returns>
         public virtual bool IsEnabled(string featureFlag)
         {
+            if (_featureFlagStore.Count == 0)
+                DiscoverAllAsync().ConfigureAwait(false);
             return _featureFlagStore != null
                 && _featureFlagStore.ContainsKey(featureFlag)
                 && _featureFlagStore[featureFlag].AllStrategyConditionsMet();
