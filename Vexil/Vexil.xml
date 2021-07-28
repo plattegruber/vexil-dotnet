@@ -16,6 +16,16 @@
             <param name="featureFlag"></param>
             <returns></returns>
         </member>
+        <member name="T:Vexil.Aggregate.UserId">
+            <summary>
+                A value object representing a user id.
+            </summary>
+        </member>
+        <member name="M:Vexil.Aggregate.UserId.#ctor(System.String)">
+            <summary>
+                A value object representing a user id.
+            </summary>
+        </member>
         <member name="T:Vexil.Exceptions.MissingProviderException">
             <summary>
             An exception thrown when no provider has been configured.
@@ -109,6 +119,16 @@
                 An in-memory store of feature flags.
             </summary>
         </member>
+        <member name="T:Vexil.IVexilContext">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Vexil.IVexilContext.UserId">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:Vexil.StrategicFeatureFlagProvider">
             <summary>
             
@@ -139,11 +159,11 @@
                 A condition or constraint that enables feature flag when met.
             </summary>
         </member>
-        <member name="M:Vexil.Strategies.IStrategy.IsCriteriaMet(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Vexil.Strategies.IStrategy.IsCriteriaMet(Vexil.IVexilContext)">
             <summary>
                 Determine if the criteria is met for the strategy, given the current context. 
             </summary>
-            <param name="parameters"> The context necessary for the strategy. </param>
+            <param name="vexilContext"> The context necessary for the strategy. </param>
             <returns> <see langword="true" /> if the strategy conditions are met, <see langword="false" /> otherwise. </returns>
         </member>
         <member name="T:Vexil.Strategies.UserIdStrategy">
@@ -152,19 +172,28 @@
                 of <see cref="T:Vexil.Strategies.IStrategy"/>.
             </summary>
         </member>
+        <member name="P:Vexil.Strategies.UserIdStrategy.AllowedUserIds">
+            <summary>
+                The set of user ids that are allowed to enable this flag.
+            </summary>
+        </member>
+        <member name="M:Vexil.Strategies.UserIdStrategy.#ctor">
+            <summary>
+                Initialize the UserIdStrategy with no AllowedUserIds.
+            </summary>
+        </member>
         <member name="M:Vexil.Strategies.UserIdStrategy.#ctor(System.Collections.Generic.IEnumerable{System.String})">
             <summary>
-                Initializes a new instance of the <see cref="T:Vexil.Strategies.UserIdStrategy" /> class with the set
-                of allowed user ids.
+                Initialize the UserIdStrategy with a set of AllowedUserIds.
             </summary>
-            <param name="allowedUserIds"> The user ids that this strategy is constrained to. </param>
+            <param name="allowedUserIds"></param>
         </member>
-        <member name="M:Vexil.Strategies.UserIdStrategy.IsCriteriaMet(System.Collections.Generic.Dictionary{System.String,System.Object})">
+        <member name="M:Vexil.Strategies.UserIdStrategy.IsCriteriaMet(Vexil.IVexilContext)">
             <summary>
                 Determine if the criteria is met for the strategy, given the current context. An implementation of
-                <see cref="M:Vexil.Strategies.IStrategy.IsCriteriaMet(System.Collections.Generic.Dictionary{System.String,System.Object})"/>
+                <see cref="M:Vexil.Strategies.IStrategy.IsCriteriaMet(Vexil.IVexilContext)"/>
             </summary>
-            <param name="parameters"> 
+            <param name="vexilContext"> 
                 The context necessary for the strategy. In this case, the current user id will be needed.
             </param>
             <returns> 

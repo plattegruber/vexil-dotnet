@@ -12,8 +12,8 @@ namespace Vexil.Tests
         {
             var strategies = new List<IStrategy>()
             {
-                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<Dictionary<string, object>>()) == true),
-                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<Dictionary<string, object>>()) == true)
+                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<IVexilContext>()) == true),
+                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<IVexilContext>()) == true)
             };
             var sut = new FeatureFlag()
             {
@@ -30,8 +30,8 @@ namespace Vexil.Tests
         {
             var strategies = new List<IStrategy>()
             {
-                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<Dictionary<string, object>>()) == false),
-                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<Dictionary<string, object>>()) == true)
+                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<IVexilContext>()) == false),
+                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<IVexilContext>()) == true)
             };
             var sut = new FeatureFlag()
             {

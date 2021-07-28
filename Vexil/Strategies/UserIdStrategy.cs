@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Vexil.Strategies
 {
@@ -9,24 +9,30 @@ namespace Vexil.Strategies
     /// </summary>
     public record UserIdStrategy : IStrategy
     {
-        private IEnumerable<string> _allowedUserIds;
+        /// <summary>
+        ///     The set of user ids that are allowed to enable this flag.
+        /// </summary>
+        public virtual IEnumerable<string> AllowedUserIds { get; init; }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="UserIdStrategy" /> class with the set
-        ///     of allowed user ids.
+        ///     Initialize the UserIdStrategy with no AllowedUserIds.
         /// </summary>
-        /// <param name="allowedUserIds"> The user ids that this strategy is constrained to. </param>
-        public UserIdStrategy(
-            IEnumerable<string> allowedUserIds)
+        public UserIdStrategy() { }
+
+        /// <summary>
+        ///     Initialize the UserIdStrategy with a set of AllowedUserIds.
+        /// </summary>
+        /// <param name="allowedUserIds"></param>
+        public UserIdStrategy(IEnumerable<string> allowedUserIds)
         {
-            _allowedUserIds = allowedUserIds ?? Enumerable.Empty<string>();
+            AllowedUserIds = allowedUserIds;
         }
 
         /// <summary>
         ///     Determine if the criteria is met for the strategy, given the current context. An implementation of
-        ///     <see cref="IStrategy.IsCriteriaMet(Dictionary{string, object})"/>
+        ///     <see cref="IStrategy.IsCriteriaMet(IVexilContext)"/>
         /// </summary>
-        /// <param name="parameters"> 
+        /// <param name="vexilContext"> 
         ///     The context necessary for the strategy. In this case, the current user id will be needed.
         /// </param>
         /// <returns> 
@@ -34,9 +40,9 @@ namespace Vexil.Strategies
         ///     this case, strategy conditions will be met when the given user id is in the set of allowed user
         ///     ids.
         /// </returns>
-        public bool IsCriteriaMet(Dictionary<string, object> parameters)
+        public bool IsCriteriaMet(IVexilContext vexilContext)
         {
-            return _allowedUserIds.Count() > 0;
+            throw new NotImplementedException();
         }
     }
 }
