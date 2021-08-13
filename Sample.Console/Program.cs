@@ -12,10 +12,10 @@ namespace Sample.ConsoleApp
         static void Main(string[] args)
         {
             //var featureFlagProvider = GetGoogleSheetsFeatureFlagProvider();
-            var featureFlagProvider = GetConfigurationFeatureFlagProvider();
             //var featureFlagProvider = GetUnleashFeatureFlagProvider();
             var vexil = new VexilBuilder()
-                .UseFeatureFlagProvider(featureFlagProvider)
+                //.UseFeatureFlagProvider(featureFlagProvider)
+                .UseConfigurationProvider(GetVexilContext())
                 .Build();
             var flagName = "testFlag";
 
@@ -40,11 +40,6 @@ namespace Sample.ConsoleApp
 
         //    return new Vexil.Plugins.GoogleSheets.FeatureFlagProvider(sheetId, sheetName, serviceAccountEmail, certificate);
         //}
-
-        private static IFeatureFlagProvider GetConfigurationFeatureFlagProvider()
-        {
-            return new ConfigurationFeatureFlagProvider(new FeatureFlagManager(), GetVexilContext());
-        }
 
         //private static IFeatureFlagProvider GetUnleashFeatureFlagProvider()
         //{
