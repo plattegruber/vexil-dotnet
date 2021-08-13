@@ -5,17 +5,27 @@ namespace Vexil.Plugins.Configuration.Tests
 {
     public class ConfigurationFeatureFlagProviderTests
     {
+        private readonly Mock<FeatureFlag> _featureFlagMock;
+        private readonly Mock<IFeatureFlagManager> _featureFlagManagerMock;
+        private readonly IVexilContext _vexilContextDummy;
+        private readonly ConfigurationFeatureFlagProvider _sut;
+
+        public ConfigurationFeatureFlagProviderTests()
+        {
+            _featureFlagMock = new Mock<FeatureFlag>();
+            _featureFlagManagerMock = new Mock<IFeatureFlagManager>();
+            _featureFlagMock.SetupGet(m => m.Name).Returns("test-flag");
+            _vexilContextDummy = It.IsAny<IVexilContext>();
+            _sut = new ConfigurationFeatureFlagProvider(_featureFlagManagerMock.Object, null);
+        }
+
         [Fact]
         public void IsEnabled_ShouldReturnTrue_IfTheFeatureFlagIsEnabled()
         {
-            var _featureFlagMock = new Mock<FeatureFlag>();
-            _featureFlagMock.SetupGet(m => m.Name).Returns("test-flag");
-            _featureFlagMock.Setup(m => m.AllStrategyConditionsMet()).Returns(true);
-            var _featureFlagManagerMock = new Mock<IFeatureFlagManager>();
-            _featureFlagManagerMock.Setup(m => m.Get("test-flag")).Returns( _featureFlagMock.Object );
-            var sut = new ConfigurationFeatureFlagProvider(_featureFlagManagerMock.Object);
+            _featureFlagManagerMock.Setup(m => m.Get("test-flag")).Returns(_featureFlagMock.Object);
+            _featureFlagMock.Setup(m => m.AllStrategyConditionsMet(_vexilContextDummy)).Returns(true);
 
-            var isEnabled = sut.IsEnabled("test-flag");
+            var isEnabled = _sut.IsEnabled("test-flag");
 
             Assert.True(isEnabled);
         }
@@ -23,14 +33,10 @@ namespace Vexil.Plugins.Configuration.Tests
         [Fact]
         public void IsEnabled_ShouldReturnFalse_IfTheFeatureFlagIsDisabled()
         {
-            var _featureFlagMock = new Mock<FeatureFlag>();
-            _featureFlagMock.SetupGet(m => m.Name).Returns("test-flag");
-            _featureFlagMock.Setup(m => m.AllStrategyConditionsMet()).Returns(false);
-            var _featureFlagManagerMock = new Mock<IFeatureFlagManager>();
             _featureFlagManagerMock.Setup(m => m.Get("test-flag")).Returns(_featureFlagMock.Object);
-            var sut = new ConfigurationFeatureFlagProvider(_featureFlagManagerMock.Object);
+            _featureFlagMock.Setup(m => m.AllStrategyConditionsMet(_vexilContextDummy)).Returns(false);
 
-            var isEnabled = sut.IsEnabled("test-flag");
+            var isEnabled = _sut.IsEnabled("test-flag");
 
             Assert.False(isEnabled);
         }
@@ -38,11 +44,9 @@ namespace Vexil.Plugins.Configuration.Tests
         [Fact]
         public void IsEnabled_ShouldReturnFalse_IfTheFlagIsNotFound()
         {
-            var _featureFlagManagerMock = new Mock<IFeatureFlagManager>();
             _featureFlagManagerMock.Setup(m => m.Get("test-flag")).Returns<FeatureFlag>(null);
-            var sut = new ConfigurationFeatureFlagProvider(_featureFlagManagerMock.Object);
 
-            var isEnabled = sut.IsEnabled("test-flag");
+            var isEnabled = _sut.IsEnabled("test-flag");
 
             Assert.False(isEnabled);
         }

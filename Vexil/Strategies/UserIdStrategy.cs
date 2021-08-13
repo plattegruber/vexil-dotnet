@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Vexil.Strategies
@@ -42,7 +43,7 @@ namespace Vexil.Strategies
         /// </returns>
         public bool IsCriteriaMet(IVexilContext vexilContext)
         {
-            throw new NotImplementedException();
+            return AllowedUserIds.Contains(vexilContext.UserId.Value);
         }
     }
 }

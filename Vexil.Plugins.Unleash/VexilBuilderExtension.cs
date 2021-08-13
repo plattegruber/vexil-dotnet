@@ -2,9 +2,9 @@
 {
     public static class VexilBuilderExtension
     {
-        public static VexilBuilder UseUnleash(this VexilBuilder vexilBuilder)
+        public static VexilBuilder UseUnleash(this VexilBuilder vexilBuilder, IVexilContext vexilContext)
         {
-            vexilBuilder.ConfiguredFeatureFlagProvider = new UnleashFeatureFlagProvider(new FeatureFlagStore(), new FeatureFlagService());
+            vexilBuilder.ConfiguredFeatureFlagProvider = new UnleashFeatureFlagProvider(new FeatureFlagStore(), new FeatureFlagService(), vexilContext);
             return vexilBuilder;
         }
     }

@@ -3,6 +3,7 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using Vexil;
+using Vexil.Plugins.Configuration;
 
 namespace Sample.ConsoleApp
 {
@@ -11,8 +12,8 @@ namespace Sample.ConsoleApp
         static void Main(string[] args)
         {
             //var featureFlagProvider = GetGoogleSheetsFeatureFlagProvider();
-            //var featureFlagProvider = GetConfigurationFeatureFlagProvider();
-            var featureFlagProvider = GetUnleashFeatureFlagProvider();
+            var featureFlagProvider = GetConfigurationFeatureFlagProvider();
+            //var featureFlagProvider = GetUnleashFeatureFlagProvider();
             var vexil = new VexilBuilder()
                 .UseFeatureFlagProvider(featureFlagProvider)
                 .Build();
@@ -25,30 +26,30 @@ namespace Sample.ConsoleApp
             Console.ReadLine();
         }
 
-        private static IFeatureFlagProvider GetGoogleSheetsFeatureFlagProvider()
-        {
-            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
-                .Build();
-            var serviceAccountEmail = configuration["Vexil:Plugins:GoogleSheets:ServiceAccountEmail"].ToString();
-            var certificate = new X509Certificate2("c:\\auth.p12", "notasecret", X509KeyStorageFlags.Exportable);
-            var sheetId = configuration["Vexil:Plugins:GoogleSheets:SheetId"].ToString();
-            var sheetName = configuration["Vexil:Plugins:GoogleSheets:SheetName"].ToString();
-
-            return new Vexil.Plugins.GoogleSheets.FeatureFlagProvider(sheetId, sheetName, serviceAccountEmail, certificate);
-        }
-
-        //private static IFeatureFlagProvider GetConfigurationFeatureFlagProvider()
+        //private static IFeatureFlagProvider GetGoogleSheetsFeatureFlagProvider()
         //{
-        //    return new Vexil.Plugins.Configuration.ConfigurationFeatureFlagProvider();
+        //    var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        //    var configuration = new ConfigurationBuilder()
+        //        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        //        .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
+        //        .Build();
+        //    var serviceAccountEmail = configuration["Vexil:Plugins:GoogleSheets:ServiceAccountEmail"].ToString();
+        //    var certificate = new X509Certificate2("c:\\auth.p12", "notasecret", X509KeyStorageFlags.Exportable);
+        //    var sheetId = configuration["Vexil:Plugins:GoogleSheets:SheetId"].ToString();
+        //    var sheetName = configuration["Vexil:Plugins:GoogleSheets:SheetName"].ToString();
+
+        //    return new Vexil.Plugins.GoogleSheets.FeatureFlagProvider(sheetId, sheetName, serviceAccountEmail, certificate);
         //}
 
-        private static IFeatureFlagProvider GetUnleashFeatureFlagProvider()
+        private static IFeatureFlagProvider GetConfigurationFeatureFlagProvider()
         {
-            return new Vexil.Plugins.Unleash.UnleashFeatureFlagProvider(new FeatureFlagStore(), new FeatureFlagService());
+            return new ConfigurationFeatureFlagProvider(new FeatureFlagManager(), GetVexilContext());
         }
+
+        //private static IFeatureFlagProvider GetUnleashFeatureFlagProvider()
+        //{
+        //    return new Vexil.Plugins.Unleash.UnleashFeatureFlagProvider(new FeatureFlagStore(), new FeatureFlagService(), GetVexilContext());
+        //}
 
         private static void CheckFlag(VexilClient vexil, string flagName)
         {
@@ -61,5 +62,8 @@ namespace Sample.ConsoleApp
                 Console.WriteLine("Disabled...");
             }
         }
+
+        private static IVexilContext GetVexilContext()
+            => new VexilContext() { UserId = new Vexil.Aggregate.UserId("123") };
     }
 }

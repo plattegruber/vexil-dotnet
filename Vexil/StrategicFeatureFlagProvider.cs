@@ -9,18 +9,22 @@ namespace Vexil
     {
         private IFeatureFlagStore _featureFlagStore;
         private IFeatureFlagService _featureFlagService;
+        private IVexilContext _vexilContext;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="featureFlagStore"></param>
         /// <param name="featureFlagService"></param>
+        /// <param name="vexilContext"></param>
         public StrategicFeatureFlagProvider(
             IFeatureFlagStore featureFlagStore,
-            IFeatureFlagService featureFlagService)
+            IFeatureFlagService featureFlagService,
+            IVexilContext vexilContext)
         {
             _featureFlagStore = featureFlagStore;
             _featureFlagService = featureFlagService;
+            _vexilContext = vexilContext;
         }
 
         /// <summary>
@@ -34,7 +38,7 @@ namespace Vexil
                 DiscoverAllAsync().ConfigureAwait(false);
             return _featureFlagStore != null
                 && _featureFlagStore.ContainsKey(featureFlag)
-                && _featureFlagStore[featureFlag].AllStrategyConditionsMet();
+                && _featureFlagStore[featureFlag].AllStrategyConditionsMet(_vexilContext);
         }
 
         /// <summary>

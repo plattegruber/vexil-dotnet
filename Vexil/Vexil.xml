@@ -69,7 +69,7 @@
             TODO: XML docs
             </summary>
         </member>
-        <member name="M:Vexil.FeatureFlag.AllStrategyConditionsMet">
+        <member name="M:Vexil.FeatureFlag.AllStrategyConditionsMet(Vexil.IVexilContext)">
             <summary>
             TODO: XML docs
             </summary>
@@ -121,12 +121,13 @@
         </member>
         <member name="T:Vexil.IVexilContext">
             <summary>
-            
+                Holds context information for the application calling into vexil, e.g.
+                the current user
             </summary>
         </member>
         <member name="P:Vexil.IVexilContext.UserId">
             <summary>
-            
+                The Id of the user
             </summary>
         </member>
         <member name="T:Vexil.StrategicFeatureFlagProvider">
@@ -134,12 +135,13 @@
             
             </summary>
         </member>
-        <member name="M:Vexil.StrategicFeatureFlagProvider.#ctor(Vexil.IFeatureFlagStore,Vexil.IFeatureFlagService)">
+        <member name="M:Vexil.StrategicFeatureFlagProvider.#ctor(Vexil.IFeatureFlagStore,Vexil.IFeatureFlagService,Vexil.IVexilContext)">
             <summary>
             
             </summary>
             <param name="featureFlagStore"></param>
             <param name="featureFlagService"></param>
+            <param name="vexilContext"></param>
         </member>
         <member name="M:Vexil.StrategicFeatureFlagProvider.IsEnabled(System.String)">
             <summary>
@@ -250,6 +252,12 @@
             <exception cref="T:Vexil.Exceptions.MissingProviderException"></exception>
             <param name="flag"> The slug or name of the feature flag. </param>
             <returns> <see langword="true" /> if the flag is enabled given the current context. <see langword="false" /> otherwise. </returns>
+        </member>
+        <member name="T:Vexil.VexilContext">
+            <see cref="T:Vexil.IVexilContext"></see>
+        </member>
+        <member name="P:Vexil.VexilContext.UserId">
+            <see cref="P:Vexil.IVexilContext.UserId"></see>
         </member>
     </members>
 </doc>

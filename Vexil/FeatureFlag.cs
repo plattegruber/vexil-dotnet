@@ -23,9 +23,9 @@ namespace Vexil
         /// TODO: XML docs
         /// </summary>
         /// <returns></returns>
-        public virtual bool AllStrategyConditionsMet() => 
+        public virtual bool AllStrategyConditionsMet(IVexilContext context) => 
             Strategies != null 
             && Strategies.Any() 
-            && Strategies.All(s => s.IsCriteriaMet(null));
+            && Strategies.All(s => s.IsCriteriaMet(context));
     }
 }

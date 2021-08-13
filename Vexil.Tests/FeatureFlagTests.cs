@@ -7,20 +7,27 @@ namespace Vexil.Tests
 {
     public class FeatureFlagTests
     {
+        private readonly IVexilContext _vexilContextDummy;
+
+        public FeatureFlagTests()
+        {
+            _vexilContextDummy = It.IsAny<IVexilContext>();
+        }
+
         [Fact]
         public void AllStrategyConditionsMet_ShouldReturnTrue_IfAllStrategyConditionsAreMet()
         {
             var strategies = new List<IStrategy>()
             {
-                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<IVexilContext>()) == true),
-                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<IVexilContext>()) == true)
+                Mock.Of<IStrategy>(s => s.IsCriteriaMet(_vexilContextDummy) == true),
+                Mock.Of<IStrategy>(s => s.IsCriteriaMet(_vexilContextDummy) == true)
             };
             var sut = new FeatureFlag()
             {
                 Strategies = strategies
             };
 
-            var isEnabled = sut.AllStrategyConditionsMet();
+            var isEnabled = sut.AllStrategyConditionsMet(_vexilContextDummy);
 
             Assert.True(isEnabled);
         }
@@ -30,15 +37,15 @@ namespace Vexil.Tests
         {
             var strategies = new List<IStrategy>()
             {
-                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<IVexilContext>()) == false),
-                Mock.Of<IStrategy>(s => s.IsCriteriaMet(It.IsAny<IVexilContext>()) == true)
+                Mock.Of<IStrategy>(s => s.IsCriteriaMet(_vexilContextDummy) == false),
+                Mock.Of<IStrategy>(s => s.IsCriteriaMet(_vexilContextDummy) == true)
             };
             var sut = new FeatureFlag()
             {
                 Strategies = strategies
             };
 
-            var isEnabled = sut.AllStrategyConditionsMet();
+            var isEnabled = sut.AllStrategyConditionsMet(_vexilContextDummy);
 
             Assert.False(isEnabled);
         }
@@ -52,7 +59,7 @@ namespace Vexil.Tests
                 Strategies = strategies
             };
 
-            var isEnabled = sut.AllStrategyConditionsMet();
+            var isEnabled = sut.AllStrategyConditionsMet(_vexilContextDummy);
 
             Assert.False(isEnabled);
         }
@@ -65,7 +72,7 @@ namespace Vexil.Tests
                 Strategies = null
             };
 
-            var isEnabled = sut.AllStrategyConditionsMet();
+            var isEnabled = sut.AllStrategyConditionsMet(_vexilContextDummy);
 
             Assert.False(isEnabled);
         }
