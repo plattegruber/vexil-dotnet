@@ -60,7 +60,7 @@ namespace Sample.ConsoleApp
         private static IVexilContext GetVexilContext()
             => new VexilContext() { UserId = new Vexil.Aggregate.UserId("123") };
 
-        private static IOptionsSnapshot<IEnumerable<FeatureFlagConfiguration>> GetConfiguration()
+        private static IOptionsSnapshot<VexilConfiguration> GetConfiguration()
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -68,7 +68,7 @@ namespace Sample.ConsoleApp
                 .Build();
             IEnumerable<FeatureFlagConfiguration> featureFlagConfigurations = new List<FeatureFlagConfiguration>();
             configuration.GetSection("vexil:featureFlags").Bind(featureFlagConfigurations);
-            return (IOptionsSnapshot<IEnumerable<FeatureFlagConfiguration>>)Options.Create(featureFlagConfigurations);
+            return (IOptionsSnapshot<VexilConfiguration>)Options.Create(featureFlagConfigurations);
         }
     }
 }

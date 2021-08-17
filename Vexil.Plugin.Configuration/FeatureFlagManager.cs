@@ -8,21 +8,19 @@ namespace Vexil.Plugins.Configuration
 {
     public class FeatureFlagManager : IFeatureFlagManager
     {
-        public IEnumerable<FeatureFlagConfiguration> _configuredFeatureFlags;
+        public VexilConfiguration _configuredFeatureFlags;
         private readonly IFeatureFlagConfigurationConverter _converter;
 
         public FeatureFlagManager(
-            IOptionsSnapshot<IEnumerable<FeatureFlagConfiguration>> configurationAccessor,
+            IOptionsSnapshot<VexilConfiguration> configurationAccessor,
             IFeatureFlagConfigurationConverter converter)
         {
             _configuredFeatureFlags = configurationAccessor.Value;
             _converter = converter;
         }
 
-        public IEnumerable<FeatureFlag> GetAll()
-        {
-            return _configuredFeatureFlags.Select(f => _converter.Convert(f));
-        }
+        public IEnumerable<FeatureFlag> GetAll() =>
+            _configuredFeatureFlags?.Select(f => _converter.Convert(f)) ?? new List<FeatureFlag>();
 
         public FeatureFlag Get(string featureFlag)
         {
