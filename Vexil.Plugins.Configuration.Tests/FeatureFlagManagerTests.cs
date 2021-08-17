@@ -10,44 +10,27 @@ namespace Vexil.Plugins.Configuration.Tests
     public class FeatureFlagManagerTests
     {
         private readonly Mock<IOptionsSnapshot<IEnumerable<FeatureFlagConfiguration>>> _configurationMock;
-        private readonly FeatureFlagManager _sut;
+        private readonly Mock<IFeatureFlagConfigurationConverter> _converterMock;
 
         public FeatureFlagManagerTests()
         {
             _configurationMock = new Mock<IOptionsSnapshot<IEnumerable<FeatureFlagConfiguration>>>();
-            _sut = new FeatureFlagManager(_configurationMock.Object);
+            _converterMock = new Mock<IFeatureFlagConfigurationConverter>();
         }
 
         [Fact]
         public void GetAll_ShouldReturn_AllFeatureFlags()
         {
-            _configurationMock.SetupGet(m => m.Value).Returns(new List<FeatureFlagConfiguration>()
+            var testFeatureFlagConfiguration = new FeatureFlagConfiguration()
             {
-                new()
-                {
-                    Name = "test",
-                    StrategyConfigurations = new List<StrategyConfiguration>()
-                    {
-                        new()
-                        {
-                            Type = "userId",
-                            PropertyConfigurations = new List<PropertyConfiguration>()
-                            {
-                                new()
-                                {
-                                    Name = "userIds",
-                                    Value = new List<string>()
-                                    {
-                                        "123",
-                                        "234",
-                                        "345"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                Name = "test"
+            };
+            _configurationMock.SetupGet(m => m.Value).Returns(new List<FeatureFlagConfiguration>() { testFeatureFlagConfiguration });
+            _converterMock.Setup(m => m.Convert(It.Is<FeatureFlagConfiguration>(i => i.Name == "test"))).Returns(new FeatureFlag()
+            {
+                Name = "test"
             });
+            var _sut = new FeatureFlagManager(_configurationMock.Object, _converterMock.Object);
 
             var featureFlags = _sut.GetAll();
 
@@ -57,6 +40,8 @@ namespace Vexil.Plugins.Configuration.Tests
         [Fact]
         public void GetAll_ShouldReturn_NoFeatureFlagsWhenNoneAreConfigured()
         {
+            var _sut = new FeatureFlagManager(_configurationMock.Object, _converterMock.Object);
+
             var featureFlags = _sut.GetAll();
 
             Assert.NotNull(featureFlags);
