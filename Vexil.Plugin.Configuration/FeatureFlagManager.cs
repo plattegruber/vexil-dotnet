@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vexil.Plugins.Configuration.Configurations;
@@ -24,7 +23,10 @@ namespace Vexil.Plugins.Configuration
 
         public FeatureFlag Get(string featureFlag)
         {
-            throw new NotImplementedException();
+            var configuredFlag = _configuredFeatureFlags?.Find(f => f.Name == featureFlag);
+            if (configuredFlag == null)
+                return null;
+            return _converter.Convert(configuredFlag);
         }
     }
 }

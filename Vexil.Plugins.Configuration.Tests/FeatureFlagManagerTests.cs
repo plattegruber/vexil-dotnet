@@ -57,5 +57,36 @@ namespace Vexil.Plugins.Configuration.Tests
             Assert.NotNull(featureFlags);
             Assert.Empty(featureFlags);
         }
+
+        [Theory]
+        [InlineData("test", true)]
+        [InlineData("failure-test", false)]
+        public void Get_ShouldReturn_FeatureFlagWhenItExists(string flagName, bool shouldExist)
+        {
+            var testFeatureFlagConfiguration = new FeatureFlagConfiguration()
+            {
+                Name = "test"
+            };
+            _configurationMock.SetupGet(m => m.Value).Returns(new VexilConfiguration { testFeatureFlagConfiguration });
+            _converterMock.Setup(m => m.Convert(It.Is<FeatureFlagConfiguration>(i => i.Name == "test"))).Returns(new FeatureFlag()
+            {
+                Name = "test"
+            });
+            var _sut = new FeatureFlagManager(_configurationMock.Object, _converterMock.Object);
+
+            var exists = _sut.Get(flagName) != null;
+
+            Assert.True(exists == shouldExist);
+        }
+
+        [Fact]
+        public void Get_ShouldReturnNull_WhenFeatureFlagsOptionsAreNull()
+        {
+            var _sut = new FeatureFlagManager(_configurationMock.Object, _converterMock.Object);
+
+            var featureFlags = _sut.Get("test");
+
+            Assert.Null(featureFlags);
+        }
     }
 }
