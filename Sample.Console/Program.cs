@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using Vexil;
 using Vexil.Plugins.Configuration;
+using Vexil.Plugins.Configuration.Configurations;
 
 namespace Sample.ConsoleApp
 {
@@ -15,7 +18,7 @@ namespace Sample.ConsoleApp
             //var featureFlagProvider = GetUnleashFeatureFlagProvider();
             var vexil = new VexilBuilder()
                 //.UseFeatureFlagProvider(featureFlagProvider)
-                .UseConfigurationProvider(GetVexilContext())
+                .UseConfigurationProvider(GetVexilContext(), GetConfiguration())
                 .Build();
             var flagName = "testFlag";
 
@@ -28,11 +31,7 @@ namespace Sample.ConsoleApp
 
         //private static IFeatureFlagProvider GetGoogleSheetsFeatureFlagProvider()
         //{
-        //    var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-        //    var configuration = new ConfigurationBuilder()
-        //        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        //        .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
-        //        .Build();
+        //    var configuration = GetConfiguration()
         //    var serviceAccountEmail = configuration["Vexil:Plugins:GoogleSheets:ServiceAccountEmail"].ToString();
         //    var certificate = new X509Certificate2("c:\\auth.p12", "notasecret", X509KeyStorageFlags.Exportable);
         //    var sheetId = configuration["Vexil:Plugins:GoogleSheets:SheetId"].ToString();
@@ -60,5 +59,16 @@ namespace Sample.ConsoleApp
 
         private static IVexilContext GetVexilContext()
             => new VexilContext() { UserId = new Vexil.Aggregate.UserId("123") };
+
+        private static IOptionsSnapshot<IEnumerable<FeatureFlagConfiguration>> GetConfiguration()
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
+                .Build();
+            IEnumerable<FeatureFlagConfiguration> featureFlagConfigurations = new List<FeatureFlagConfiguration>();
+            configuration.GetSection("vexil:featureFlags").Bind(featureFlagConfigurations);
+            return (IOptionsSnapshot<IEnumerable<FeatureFlagConfiguration>>)Options.Create(featureFlagConfigurations);
+        }
     }
 }
